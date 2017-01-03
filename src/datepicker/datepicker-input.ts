@@ -290,6 +290,17 @@ export class NgbInputDatepicker implements OnChanges,
     }
   }
 
+  shouldCloseOnOutsideEvent($event): boolean {
+    const inputClick = this._elRef.nativeElement.contains($event.target);
+    let popupClick = false;
+
+    if (this.isOpen() && this._cRef.location.nativeElement.contains($event.target)) {
+      popupClick = true;
+    }
+
+    return !inputClick && !popupClick;
+  }
+
   /**
    * Navigates current view to provided date.
    * With default calendar we use ISO 8601: 'month' is 1=Jan ... 12=Dec.

@@ -55,7 +55,7 @@ function getButton(nativeEl: HTMLElement) {
   return nativeEl.querySelectorAll('button');
 }
 
-describe('ngb-tabset', () => {
+fdescribe('ngb-tabset', () => {
   beforeEach(
       () => { TestBed.configureTestingModule({declarations: [TestComponent], imports: [NgbTabsetModule.forRoot()]}); });
 
@@ -230,6 +230,38 @@ describe('ngb-tabset', () => {
     (<HTMLElement>tabTitles[0]).click();
     fixture.detectChanges();
     expectTabs(fixture.nativeElement, [true, false]);
+  });
+
+
+  it('should support nested tabs', () => {
+    const fixture = createTestComponent(`
+      <ngb-tabset>
+        <ngb-tab title="foo"><ng-template ngbTabContent>Foo</ng-template></ngb-tab>
+        <ngb-tab title="bar"><ng-template ngbTabContent>
+          <ngb-tabset>
+            <ngb-tab title="foz"><ng-template ngbTabContent>Foz</ng-template></ngb-tab>
+            <ngb-tab title="bar"><ng-template ngbTabContent>Baz</ng-template></ngb-tab>
+          </ngb-tabset>
+        </ng-template></ngb-tab>
+      </ngb-tabset>
+    `);
+
+    const tabTitles = getTabTitles(fixture.nativeElement);
+    fixture.detectChanges();
+    expect(getTabTitles(fixture.nativeElement).length).toBe(2);
+    expect(getTabContent(fixture.nativeElement).length).toBe(1);
+
+    (<HTMLElement>tabTitles[1]).click();
+    fixture.detectChanges();
+    let nestedTitles = getTabTitles(<HTMLElement>getTabContent(fixture.nativeElement)[0]);
+    let nestedContent = getTabContent(<HTMLElement>getTabContent(fixture.nativeElement)[0])
+    expect(nestedTitles.length).toBe(2);
+    expect(nestedContent.length).toBe(1);
+
+    (<HTMLElement>nestedTitles[1]).click();
+    fixture.detectChanges();
+    nestedTitles = getTabTitles(<HTMLElement>getTabContent(fixture.nativeElement)[0]);
+    expect(nestedTitles.length).toBe(2);
   });
 
 

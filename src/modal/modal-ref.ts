@@ -5,6 +5,8 @@ import {NgbModalWindow} from './modal-window';
 
 import {ContentRef} from '../util/popup';
 
+export const activeModalRefs = [];
+
 /**
  * A reference to an active (currently opened) modal. Instances of this class
  * can be injected into components passed as modal content.
@@ -56,6 +58,8 @@ export class NgbModalRef {
       this._reject = reject;
     });
     this.result.then(null, () => {});
+
+    activeModalRefs.push(this);
   }
 
   /**
@@ -64,7 +68,7 @@ export class NgbModalRef {
   close(result?: any): void {
     if (this._windowCmptRef) {
       this._resolve(result);
-      this._removeModalElements();
+      this._cleanupAfterClassOrDismiss();
     }
   }
 
@@ -75,9 +79,14 @@ export class NgbModalRef {
     if (this._windowCmptRef) {
       if (!this._beforeDismiss || this._beforeDismiss() !== false) {
         this._reject(reason);
-        this._removeModalElements();
+        this._cleanupAfterClassOrDismiss();
       }
     }
+  }
+
+  private _cleanupAfterClassOrDismiss() {
+    this._removeModalElements();
+    activeModalRefs.splice(activeModalRefs.indexOf(this), 1);
   }
 
   private _removeModalElements() {

@@ -14,7 +14,7 @@ import {isDefined, isString} from '../util/util';
 
 import {NgbModalBackdrop} from './modal-backdrop';
 import {NgbModalWindow} from './modal-window';
-import {NgbActiveModal, NgbModalRef} from './modal-ref';
+import {NgbActiveModal, NgbModalRef, activeModalRefs} from './modal-ref';
 
 @Injectable()
 export class NgbModalStack {
@@ -62,6 +62,8 @@ export class NgbModalStack {
 
     return ngbModalRef;
   }
+
+  hasOpenModals() { return activeModalRefs.length > 0; }
 
   private _applyWindowOptions(windowInstance: NgbModalWindow, options: Object): void {
     ['backdrop', 'keyboard', 'size', 'windowClass'].forEach((optionName: string) => {

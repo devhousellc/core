@@ -260,6 +260,18 @@ describe('ngb-modal', () => {
       fixture.detectChanges();
       expect(fixture.nativeElement).not.toHaveModal();
     });
+
+    it('should allow checking if there are opened modals', () => {
+      const modalRef = fixture.componentInstance.open('foo');
+      fixture.detectChanges();
+      expect(fixture.nativeElement).toHaveModal();
+      expect(fixture.componentInstance.hasOpenModals()).toBeTruthy();
+
+      modalRef.dismiss('some reason');
+      fixture.detectChanges();
+      expect(fixture.nativeElement).not.toHaveModal();
+      expect(fixture.componentInstance.hasOpenModals()).toBeFalsy();
+    });
   });
 
   describe('backdrop options', () => {
@@ -664,6 +676,8 @@ class TestComponent {
   openTplClose(options?: Object) { return this.modalService.open(this.tplContentWithClose, options); }
   openTplDismiss(options?: Object) { return this.modalService.open(this.tplContentWithDismiss, options); }
   openTplIf(options?: Object) { return this.modalService.open(this.tplContentWithIf, options); }
+
+  hasOpenModals() { return this.modalService.hasOpenModals(); }
 }
 
 @NgModule({

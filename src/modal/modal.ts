@@ -63,4 +63,9 @@ export class NgbModal {
   open(content: any, options: NgbModalOptions = {}): NgbModalRef {
     return this._modalStack.open(this._moduleCFR, this._injector, content, options);
   }
+
+  /**
+   * Checks if there are currently any open modal windows.
+   */
+  hasOpenModals(): boolean { return this._modalStack.hasOpenModals(); }
 }

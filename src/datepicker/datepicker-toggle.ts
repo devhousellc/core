@@ -3,20 +3,14 @@ import {NgbInputDatepicker} from './datepicker-input';
 
 @Directive({
   selector: '[ngbDatepickerToggle]',
-  host: {
-    '(click)': 'toggle()',
-    '(document:click)': 'closeOnOutsideEvent($event)'
-  }
+  host: {'(click)': 'toggle()', '(document:click)': 'closeOnOutsideEvent($event)'}
 })
 export class NgbDatepickerToggle {
   @Input() ngbDatepickerToggle: NgbInputDatepicker;
 
-  constructor(private _elementRef: ElementRef) {
-  }
+  constructor(private _elementRef: ElementRef) {}
 
-  toggle() {
-    this.ngbDatepickerToggle.toggle();
-  }
+  toggle() { this.ngbDatepickerToggle.toggle(); }
 
   closeOnOutsideEvent($event) {
     if (!this.isTargettingToggleButton($event) && this.ngbDatepickerToggle.shouldCloseOnOutsideEvent($event)) {
@@ -24,7 +18,5 @@ export class NgbDatepickerToggle {
     }
   }
 
-  private isTargettingToggleButton($event): boolean {
-    return this._elementRef.nativeElement.contains($event.target)
-  }
+  private isTargettingToggleButton($event): boolean { return this._elementRef.nativeElement.contains($event.target); }
 }

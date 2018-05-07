@@ -1,7 +1,7 @@
 {
   "name": "ng-bootstrap",
   "version": "1.1.0",
-  "description": "Angular powered Bootstrap",
+  "description": "Angular powered Bootstrap for DevHouse",
   "keywords": [
     "angular",
     "bootstrap",

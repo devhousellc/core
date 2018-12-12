@@ -25,6 +25,6 @@ export class NgbDatepickerToggle {
   }
 
   private isTargettingToggleButton($event): boolean {
-    return this._elementRef.nativeElement.contains($event.target)
+    return this._elementRef.nativeElement.contains($event.target);
   }
 }

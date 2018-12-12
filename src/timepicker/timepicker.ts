@@ -74,15 +74,16 @@ const NGB_TIMEPICKER_VALUE_ACCESSOR = {
       <div class="ngb-tp">
         <div class="ngb-tp-hour">
           <button *ngIf="spinners" type="button" class="btn btn-link" [ngClass]="setButtonSize()" (click)="changeHour(hourStep)"
-            [disabled]="disabled" [class.disabled]="disabled">
+                  [disabled]="disabled" [class.disabled]="disabled">
             <span class="chevron"></span>
             <span class="sr-only">Increment hours</span>
           </button>
           <input type="text" class="form-control" [ngClass]="setFormControlSize()" maxlength="2" size="2" placeholder="HH"
-            [value]="formatHour(model?.hour)" (change)="updateHour($event.target.value)"
-            [readonly]="readonlyInputs" [disabled]="disabled" aria-label="Hours">
+                 [value]="formatHour(model?.hour)" (change)="updateHour($event.target.value)"
+                 [readonly]="readonlyInputs" [disabled]="disabled" aria-label="Hours"
+                 (keydown.ArrowUp)="changeHour(hourStep)" (keydown.ArrowDown)="changeHour(-hourStep)">
           <button *ngIf="spinners" type="button" class="btn btn-link" [ngClass]="setButtonSize()" (click)="changeHour(-hourStep)"
-            [disabled]="disabled" [class.disabled]="disabled">
+                  [disabled]="disabled" [class.disabled]="disabled">
             <span class="chevron bottom"></span>
             <span class="sr-only">Decrement hours</span>
           </button>
@@ -90,15 +91,16 @@ const NGB_TIMEPICKER_VALUE_ACCESSOR = {
         <div class="ngb-tp-spacer">:</div>
         <div class="ngb-tp-minute">
           <button *ngIf="spinners" type="button" class="btn btn-link" [ngClass]="setButtonSize()" (click)="changeMinute(minuteStep)"
-            [disabled]="disabled" [class.disabled]="disabled">
+                  [disabled]="disabled" [class.disabled]="disabled">
             <span class="chevron"></span>
             <span class="sr-only">Increment minutes</span>
           </button>
           <input type="text" class="form-control" [ngClass]="setFormControlSize()" maxlength="2" size="2" placeholder="MM"
-            [value]="formatMinSec(model?.minute)" (change)="updateMinute($event.target.value)"
-            [readonly]="readonlyInputs" [disabled]="disabled" aria-label="Minutes">
+                 [value]="formatMinSec(model?.minute)" (change)="updateMinute($event.target.value)"
+                 [readonly]="readonlyInputs" [disabled]="disabled" aria-label="Minutes"
+                 (keydown.ArrowUp)="changeMinute(minuteStep)" (keydown.ArrowDown)="changeMinute(-minuteStep)">
           <button *ngIf="spinners" type="button" class="btn btn-link" [ngClass]="setButtonSize()" (click)="changeMinute(-minuteStep)"
-            [disabled]="disabled" [class.disabled]="disabled">
+                  [disabled]="disabled" [class.disabled]="disabled">
             <span class="chevron bottom"></span>
             <span class="sr-only">Decrement minutes</span>
           </button>
@@ -106,15 +108,16 @@ const NGB_TIMEPICKER_VALUE_ACCESSOR = {
         <div *ngIf="seconds" class="ngb-tp-spacer">:</div>
         <div *ngIf="seconds" class="ngb-tp-second">
           <button *ngIf="spinners" type="button" class="btn btn-link" [ngClass]="setButtonSize()" (click)="changeSecond(secondStep)"
-            [disabled]="disabled" [class.disabled]="disabled">
+                  [disabled]="disabled" [class.disabled]="disabled">
             <span class="chevron"></span>
             <span class="sr-only">Increment seconds</span>
           </button>
           <input type="text" class="form-control" [ngClass]="setFormControlSize()" maxlength="2" size="2" placeholder="SS"
-            [value]="formatMinSec(model?.second)" (change)="updateSecond($event.target.value)"
-            [readonly]="readonlyInputs" [disabled]="disabled" aria-label="Seconds">
+                 [value]="formatMinSec(model?.second)" (change)="updateSecond($event.target.value)"
+                 [readonly]="readonlyInputs" [disabled]="disabled" aria-label="Seconds"
+                 (keydown.ArrowUp)="changeSecond(secondStep)" (keydown.ArrowDown)="changeSecond(-secondStep)">
           <button *ngIf="spinners" type="button" class="btn btn-link" [ngClass]="setButtonSize()" (click)="changeSecond(-secondStep)"
-            [disabled]="disabled" [class.disabled]="disabled">
+                  [disabled]="disabled" [class.disabled]="disabled">
             <span class="chevron bottom"></span>
             <span class="sr-only">Decrement seconds</span>
           </button>
@@ -122,8 +125,9 @@ const NGB_TIMEPICKER_VALUE_ACCESSOR = {
         <div *ngIf="meridian" class="ngb-tp-spacer"></div>
         <div *ngIf="meridian" class="ngb-tp-meridian">
           <button type="button" class="btn btn-outline-primary" [ngClass]="setButtonSize()"
-            [disabled]="disabled" [class.disabled]="disabled"
-            (click)="toggleMeridian()">{{model?.hour >= 12 ? 'PM' : 'AM'}}</button>
+                  [disabled]="disabled" [class.disabled]="disabled"
+                  (click)="toggleMeridian()">{{model?.hour >= 12 ? 'PM' : 'AM'}}
+          </button>
         </div>
       </div>
     </fieldset>
@@ -131,7 +135,7 @@ const NGB_TIMEPICKER_VALUE_ACCESSOR = {
   providers: [NGB_TIMEPICKER_VALUE_ACCESSOR]
 })
 export class NgbTimepicker implements ControlValueAccessor,
-    OnChanges {
+  OnChanges {
   disabled: boolean;
   model: NgbTime;
 
@@ -187,8 +191,10 @@ export class NgbTimepicker implements ControlValueAccessor,
     this.size = config.size;
   }
 
-  onChange = (_: any) => {};
-  onTouched = () => {};
+  onChange = (_: any) => {
+  };
+  onTouched = () => {
+  };
 
   writeValue(value) {
     this.model = value ? new NgbTime(value.hour, value.minute, value.second) : new NgbTime();
@@ -197,11 +203,17 @@ export class NgbTimepicker implements ControlValueAccessor,
     }
   }
 
-  registerOnChange(fn: (value: any) => any): void { this.onChange = fn; }
+  registerOnChange(fn: (value: any) => any): void {
+    this.onChange = fn;
+  }
 
-  registerOnTouched(fn: () => any): void { this.onTouched = fn; }
+  registerOnTouched(fn: () => any): void {
+    this.onTouched = fn;
+  }
 
-  setDisabledState(isDisabled: boolean) { this.disabled = isDisabled; }
+  setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+  }
 
   changeHour(step: number) {
     this.model.changeHour(step);
@@ -257,11 +269,17 @@ export class NgbTimepicker implements ControlValueAccessor,
     }
   }
 
-  formatMinSec(value: number) { return padNumber(value); }
+  formatMinSec(value: number) {
+    return padNumber(value);
+  }
 
-  setFormControlSize() { return {'form-control-sm': this.size === 'small', 'form-control-lg': this.size === 'large'}; }
+  setFormControlSize() {
+    return {'form-control-sm': this.size === 'small', 'form-control-lg': this.size === 'large'};
+  }
 
-  setButtonSize() { return {'btn-sm': this.size === 'small', 'btn-lg': this.size === 'large'}; }
+  setButtonSize() {
+    return {'btn-sm': this.size === 'small', 'btn-lg': this.size === 'large'};
+  }
 
 
   ngOnChanges(changes: SimpleChanges): void {
